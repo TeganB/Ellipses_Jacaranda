@@ -179,11 +179,11 @@ function Fader(x, y1, y2, a2) {
   fill(50);
   text("Birds", (a2+15), (a2+20));
   var flagX, flagY;
-  
+
   if (mouseY > y1-1 && mouseY < y2+1 ) { // makes sure mouse is above or below fader
     flagY = true;
   }
-  
+
   if (mouseX > x - 40 && mouseX < x + 40) { // makes sure mouse is within fader's width
     flagX = true;
   }
@@ -224,11 +224,11 @@ function FaderTwo(a, b1, b2) {
   var flaggX, flaggY;
   var Manfad;
   Manfad = map(mouseY, 160, 50, 0, 0.7);
-  
+
   if (mouseY > b1-1 && mouseY < b2+1 ) { // makes sure mouse is above or below fader
     flaggY = true;
   }
-  
+
   if (mouseX > a - 40 && mouseX < a + 40) { // makes sure mouse is within fader's width
     flaggX = true;
   }
@@ -239,7 +239,7 @@ function FaderTwo(a, b1, b2) {
    cracklesound.setVolume(level2);
   }
 
-  //translate(100, 0); 
+  //translate(100, 0);
   fill(75);
   strokeWeight(2);
   triangle(175, possY+5, 175, possY-5, 165, possY);
@@ -271,11 +271,11 @@ function FaderThree(c, d1, d2) {
   var flagX, flagY;
   var Manfadd;
   Manfadd = map(mouseY, 160, 50, 0, 0.7);
-  
+
   if (mouseY > d1-1 && mouseY < d2+1 ) { // makes sure mouse is above or below fader
     flagY = true;
   }
-  
+
   if (mouseX > c - 40 && mouseX < c + 40) { // makes sure mouse is within fader's width
     flagX = true;
   }
@@ -286,7 +286,7 @@ function FaderThree(c, d1, d2) {
     thundersound.setVolume(level3);
   }
 
-  //translate(100, 0); 
+  //translate(100, 0);
   fill(75);
   strokeWeight(2);
   triangle(285, posssY+5, 285, posssY-5, 275, posssY);
@@ -318,11 +318,11 @@ function FaderFour(g, h1, h2) {
   var flagX, flagY;
   var Manfadd;
   Manfadd = map(mouseY, 160, 50, 0, 0.7);
-  
+
   if (mouseY > h1-1 && mouseY < h2+1 ) { // makes sure mouse is above or below fader
     flagY = true;
   }
-  
+
   if (mouseX > g - 40 && mouseX < g + 40) { // makes sure mouse is within fader's width
     flagX = true;
   }
@@ -337,7 +337,7 @@ function FaderFour(g, h1, h2) {
     e5.setVolume(level4);
   }
 
-  //translate(100, 0); 
+  //translate(100, 0);
   fill(75);
   strokeWeight(2);
   triangle(395, possssY+5, 395, possssY-5, 385, possssY);
@@ -369,16 +369,16 @@ function Button() {
 
   function mousePressed(){
   var flagC, flagD, flagP, flagQ;
-  
-  if (mouseX > 520 && mouseX < 590 && call == 0) { 
+
+  if (mouseX > 520 && mouseX < 590 && call == 0) {
     flagC = true;
   }
-  
-  if (mouseY > 100 && mouseY < 170) { 
+
+  if (mouseY > 100 && mouseY < 170) {
     flagD = true;
   }
 
-  if (flagC && flagD) { 
+  if (flagC && flagD) {
     redbutton = [204, 0, 0, 150];
     silentsound.play();
     call = 1;
@@ -386,11 +386,11 @@ function Button() {
   	autoOff()
   }
 
-  if (mouseX > 900 && mouseX < 950) { 
+  if (mouseX > 900 && mouseX < 950) {
     flagP = true;
   }
-  
-  if (mouseY > 150 && mouseY < 200) { 
+
+  if (mouseY > 150 && mouseY < 200) {
     flagQ = true;
   }
 
@@ -448,7 +448,7 @@ function nextEnv5(){
 }
 
 function autoOff() {
-	 if (mouseX > 520 && mouseX < 590 && mouseY > 100 && mouseY < 170 && call == 1) { 
+	 if (mouseX > 520 && mouseX < 590 && mouseY > 100 && mouseY < 170 && call == 1) {
 	redbutton = [76, 153, 0, 150];
     silentsound.stop();
     call = 0;
@@ -457,9 +457,9 @@ function autoOff() {
 
 function myFilter() {
   birdsound.disconnect();
-  birdsound.connect(filter); 
+  birdsound.connect(filter);
   cracklesound.disconnect();
-  cracklesound.connect(filter); 
+  cracklesound.connect(filter);
   thundersound.disconnect();
   thundersound.connect(filter);
   e1.disconnect();
@@ -472,16 +472,16 @@ function myFilter() {
   e4.connect(filter);
   e5.disconnect();
   e5.connect(filter);
-  filteron = 1; 
+  filteron = 1;
 }
 
 function FilterOff() {
 
-  if (mouseX > 900 && mouseX < 950 && mouseY > 150 && mouseY < 200 && filteron == 1 && mouseIsPressed) {   
+  if (mouseX > 900 && mouseX < 950 && mouseY > 150 && mouseY < 200 && filteron == 1 && mouseIsPressed) {
   birdsound.disconnect();
-  birdsound.connect(); 
+  birdsound.connect();
   cracklesound.disconnect();
-  cracklesound.connect(); 
+  cracklesound.connect();
   thundersound.disconnect();
   thundersound.connect();
   e1.disconnect();
@@ -496,7 +496,7 @@ function FilterOff() {
   e5.connect();
   filterbutton = [76, 153, 0, 150];
   filteron = 0;
-  } 
+  }
 }
 
 function drawFilter() {
@@ -504,7 +504,7 @@ function drawFilter() {
   text("Sound Spectrum", 545, 195);
      fill(0);
 rect(500, 200, 200, 150);
-var scmse = map(mouseX, 500, 700, 500, 940); 
+var scmse = map(mouseX, 500, 700, 500, 940);
   var freq = map(scmse, 500, 700, 10, 10000); // was 500, 700, 20, 10000
   constrain(freq, 10, 10000);
   filter.freq(freq);
