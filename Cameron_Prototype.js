@@ -26,7 +26,6 @@ var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
 var level, level2, level3, level4;
 var img;// just for inspiration!!
 var redbutton = [76, 153, 0, 150];
-var filter, fft;
 var filteron = 0, filterbutton = [76, 153, 0, 150];
 
 function preload() {
