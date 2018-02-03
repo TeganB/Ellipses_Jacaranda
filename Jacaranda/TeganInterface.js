@@ -15,8 +15,8 @@ var birdsound;
 var filter, fft;
 
 function preload (){
-  //soundFormats('mp3','ogg');
-  //birdsound = loadSound('media/birds.ogg');
+  soundFormats('mp3','ogg');
+  birdsound = loadSound('media/birds.ogg');
 }
 
 function setup() {
@@ -41,8 +41,8 @@ function setup() {
   // particle system
   ps = new ParticleSystem(createVector(random(50, width/3), 100));
   //sound
-  //birdsound.setVolume(0);
-  //birdsound.loop();
+  birdsound.setVolume(0);
+  birdsound.loop();
 }
 
 function draw() {
@@ -74,7 +74,7 @@ function draw() {
   slider3.display();
   slider3.updateLoc();
   level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),1.0,0.0); // based on slider height
-  //birdsound.setVolume(level1);
+  birdsound.setVolume(level1);
   //draw filter
   filterObj.display();
 }
