@@ -7,10 +7,13 @@ var Filter = function(ftx, fty) {
   this.height = 150;
 
   this.display = function(){
+    strokeWeight(0);
+    stroke(140);
     textSize(14);
+    fill(200);
     text("Sound Spectrum", this.x+this.width/2, this.y-14);
     noStroke();
-    fill(0);
+    fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
     var scmse = map(mouseX, this.x, this.x+this.width, 500, 940);
     var freq = map(scmse, this.x, this.x+this.width, 10, 10000); // was 500, 700, 20, 10000
@@ -25,7 +28,7 @@ var Filter = function(ftx, fty) {
     for (var i = 0; i < spectrum.length; i++) {
       var xi = map(i, 0, spectrum.length, this.x, this.x+this.width);
       var hi = -this.height + map(spectrum[i], 0, 255, 150, 0);
-      rect(xi, this.y, this.width/spectrum.length, hi);
+      rect(xi, this.y+this.height, this.width/spectrum.length, hi);
     }
   }
 }

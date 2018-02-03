@@ -74,7 +74,8 @@ function draw() {
   slider3.display();
   slider3.updateLoc();
   level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),1.0,0.0); // based on slider height
-  birdsound.setVolume(level1);
+  // sound files 
+  birdsound.setVolume(level2);
   //draw filter
   filterObj.display();
 }

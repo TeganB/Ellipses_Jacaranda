@@ -31,7 +31,7 @@ var Slider = function(fx, fy, t1) {
   stroke(140);
   textAlign(CENTER);
   textSize(this.textS);
-  fill(198, 26, 255);
+  fill(200);
   text(t1, this.x+this.sliderWidth/2, this.y-this.textS*0.7);
   // triangle marker
   noStroke();
