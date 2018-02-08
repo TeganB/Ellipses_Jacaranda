@@ -38,27 +38,31 @@ var Slider = function(fx, fy, t1, t2, t3) {
   text(t3, this.x+this.sliderWidth/2, this.y+this.sliderHeight);
   // triangle marker
   noStroke();
-  fill(this.tfillCol);
+  fill(255,40,this.tfillCol);
   triangle(this.x+(this.sliderWidth/2)+7, this.ty+7, this.x+(this.sliderWidth/2)+7, this.ty-7, this.x+(this.sliderWidth/2-7)+7, this.ty);
 };
 
+  this.envLoc = function(ampVal){
+    this.ty = map(ampVal, 160, 50, this.y+this.sliderHeight-(this.tbSpace*1.5), this.y);
+  }
+
+ // if envelop automator is not on use mouse Y to update slider position
  this.updateLoc = function() {
    var flagX, flagY;
-
+   // check if over
    if (mouseY > this.y && mouseY < this.y+this.sliderHeight-(this.tbSpace*1.5))   { // makes sure mouse is above or below fader
      flagY = true;
    }
-
    if (mouseX > this.x+this.sliderWidth/2 && mouseX < this.x+this.sliderWidth ) { // makes sure mouse is within fader's width
      flagX = true;
    }
-
+   // change triangle color if over
    if(flagX && flagY){
-   this.tfillCol = 180;
- } else {
    this.tfillCol = 255;
+ } else {
+   this.tfillCol = 20;
  }
-
+  // update with Y position if mouse is pressed
    if ((flagY && flagX) && mouseIsPressed) { // if a click is made within the fader
      //call == 0;
      this.ty = mouseY;

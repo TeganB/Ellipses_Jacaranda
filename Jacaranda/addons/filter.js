@@ -8,16 +8,16 @@ var Filter = function(ftx, fty) {
 
   this.display = function(){
     strokeWeight(1);
-    textSize(13);
+    textSize(12);
     stroke(82, 20, 82);
     fill(209, 179, 255);
     text("Sound Spectrum", this.x+this.width/2, this.y+this.height+16);
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
-    var scmse = map(mouseX, this.x, this.x+this.width, 500, 940);
-    var freq = map(scmse, this.x, this.x+this.width, 10, 10000); // was 500, 700, 20, 10000
-    constrain(freq, 10, 10000);
+    var scmse = map(mouseX, this.x, this.x+this.width, 600, 940);
+    var freq = map(scmse, this.x, this.x+this.width, 0, 10000); // was 500, 700, 20, 10000
+    //constrain(freq, 10, 10000);
     filter.freq(freq);
     // give the filter a narrow band (lower res = wider bandpass)
     filter.res(18);//was 50
