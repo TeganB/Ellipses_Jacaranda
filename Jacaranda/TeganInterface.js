@@ -11,12 +11,17 @@ var f1x,f1y,f2x,f2y,f3x,f3y;
 // filter position
 var flt1x, flt1y;
 // sound vars
-var birdsound;
+var birdsound, cracklesound, thundersound;
 var filter, fft;
 
 function preload (){
   soundFormats('mp3','ogg');
   birdsound = loadSound('media/birds.ogg');
+  //cracklesound = loadSound('media/crackle.ogg');
+  thundersound = loadSound('media/Thunder.ogg');
+  //birdsound = loadSound('media/birds.mp3');
+  cracklesound = loadSound('media/crackle.mp3');
+  //thundersound = loadSound('media/Thunder.ogg');
 }
 
 function setup() {
@@ -29,9 +34,9 @@ function setup() {
   f2y = 60;
   f3x = width/3+200;
   f3y = 60;
-  slider1 = new Slider(f1x,f1y,"fader 1");
-  slider2 = new Slider(f2x,f2y,"fader 2");
-  slider3 = new Slider(f3x,f3y,"fader 3");
+  slider1 = new Slider(f1x,f1y,"Thunder", "Blossom", "Wieght");
+  slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
+  slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
   //filter
   filter = new p5.BandPass();
   fft = new p5.FFT();
@@ -43,6 +48,10 @@ function setup() {
   //sound
   birdsound.setVolume(0);
   birdsound.loop();
+  cracklesound.setVolume(0);
+  cracklesound.loop();
+  thundersound.setVolume(0);
+  thundersound.loop();
 }
 
 function draw() {
@@ -74,8 +83,10 @@ function draw() {
   slider3.display();
   slider3.updateLoc();
   level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),1.0,0.0); // based on slider height
-  // sound files 
-  birdsound.setVolume(level2);
+  // sound files
+  birdsound.setVolume(0);
+  cracklesound.setVolume(level2);
+  thundersound.setVolume(0);
   //draw filter
   filterObj.display();
 }
