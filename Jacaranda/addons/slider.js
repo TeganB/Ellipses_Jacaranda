@@ -5,7 +5,7 @@
 var Slider = function(fx, fy, t1, t2, t3) {
   this.sliderWidth = 60;
   this.sliderHeight = 200;
-  this.textS = 14;
+  this.textS = 13;
   this.tbSpace = 30;
   this.triY = fy+this.sliderHeight-(this.tbSpace+20);
   this.inter = false;
@@ -27,11 +27,12 @@ var Slider = function(fx, fy, t1, t2, t3) {
   stroke(255);
   line(this.x+this.sliderWidth/2, this.y, this.x+this.sliderWidth/2, this.y+this.sliderHeight-(this.tbSpace*1.5));
   //label
-  strokeWeight(0);
-  stroke(140);
+  strokeWeight(1);
+  stroke(10);
   textAlign(CENTER);
   textSize(this.textS);
-  fill(200);
+  stroke(82, 20, 82);
+  fill(209, 179, 255);
   text(t1, this.x+this.sliderWidth/2, this.y-this.textS*0.7);
   text(t2, this.x+this.sliderWidth/2, this.y+this.sliderHeight-16);
   text(t3, this.x+this.sliderWidth/2, this.y+this.sliderHeight);

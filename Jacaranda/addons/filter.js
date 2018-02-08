@@ -7,11 +7,11 @@ var Filter = function(ftx, fty) {
   this.height = 150;
 
   this.display = function(){
-    strokeWeight(0);
-    stroke(140);
-    textSize(14);
-    fill(200);
-    text("Sound Spectrum", this.x+this.width/2, this.y-14);
+    strokeWeight(1);
+    textSize(13);
+    stroke(82, 20, 82);
+    fill(209, 179, 255);
+    text("Sound Spectrum", this.x+this.width/2, this.y+this.height+16);
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
