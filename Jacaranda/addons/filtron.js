@@ -1,6 +1,5 @@
 // Filter Object
-
-var Filtron = function(ftx, fty) {
+var Filt = function(ftx, fty) {
   this.x = ftx;
   this.y = fty;
   this.width = 200;

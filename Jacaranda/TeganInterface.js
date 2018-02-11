@@ -86,7 +86,7 @@ function setup() {
   fft = new p5.FFT();
   flt1x = width/3+300;
   flt1y = 90;
-  filterObj = new Filtron(flt1x, flt1y);
+  filterObj = new Filt(flt1x, flt1y);
   // particle system
   ps = new ParticleSystem(createVector(random(50, width/3), 100));
   //sound
