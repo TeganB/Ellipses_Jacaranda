@@ -12,7 +12,8 @@ var Slider = function(fx, fy, t1, t2, t3) {
   this.x = fx;
   this.y = fy;
   this.ty = this.x + this.tbSpace*1.5; // should set this via loading for defualt position with in new instance
-  this.tfillCol = 90;
+  this.tfillCol = '#fff';
+
 
   this.display = function(){
   //base rect
@@ -38,7 +39,7 @@ var Slider = function(fx, fy, t1, t2, t3) {
   text(t3, this.x+this.sliderWidth/2, this.y+this.sliderHeight);
   // triangle marker
   noStroke();
-  fill(255,40,this.tfillCol);
+  fill(this.tfillCol);
   triangle(this.x+(this.sliderWidth/2)+7, this.ty+7, this.x+(this.sliderWidth/2)+7, this.ty-7, this.x+(this.sliderWidth/2-7)+7, this.ty);
 };
 
@@ -58,9 +59,9 @@ var Slider = function(fx, fy, t1, t2, t3) {
    }
    // change triangle color if over
    if(flagX && flagY){
-   this.tfillCol = 255;
+   this.tfillCol = '#e600e6';
  } else {
-   this.tfillCol = 20;
+   this.tfillCol = '#fff';
  }
   // update with Y position if mouse is pressed
    if ((flagY && flagX) && mouseIsPressed) { // if a click is made within the fader

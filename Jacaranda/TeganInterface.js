@@ -96,9 +96,9 @@ function setup() {
   cracklesound.loop();
   thundersound.setVolume(0);
   thundersound.loop();
-  e1.setVolume(0.2);
-  e2.setVolume(0.2);
-  e3.setVolume(0.2);
+  e1.setVolume(0.1);
+  e2.setVolume(0.1);
+  e3.setVolume(0.1);
   // Envelope
   env1 = new p5.Env();
   env1.setADSR(attackTime1, decayTime1);
