@@ -19,7 +19,7 @@ var flt1x, flt1y;
 // sound vars
 var birdsound, cracklesound, thundersound, e1, e2, e3, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
-var filter, fft;
+var filter1, fft;
 // Envelop Data
 // Envelop 1
 var attackTime1 = 0.9;
@@ -82,11 +82,11 @@ function setup() {
   slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
   slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
   //filter Object
-  filter = new p5.BandPass();
+  filter1 = new p5.BandPass();
   fft = new p5.FFT();
   flt1x = width/3+300;
   flt1y = 90;
-  filterObj = new Filter(flt1x, flt1y);
+  filterObj = new Filtron(flt1x, flt1y);
   // particle system
   ps = new ParticleSystem(createVector(random(50, width/3), 100));
   //sound
@@ -233,26 +233,26 @@ function draw() {
 
 function filterOn(){
   birdsound.disconnect();
-  birdsound.connect(filter);
+  birdsound.connect(filter1);
   cracklesound.disconnect();
-  cracklesound.connect(filter);
+  cracklesound.connect(filter1);
   thundersound.disconnect();
-  thundersound.connect(filter);
+  thundersound.connect(filter1);
   e1.disconnect();
-  e1.connect(filter);
+  e1.connect(filter1);
   e2.disconnect();
-  e2.connect(filter);
+  e2.connect(filter1);
   e3.disconnect();
-  e3.connect(filter);
+  e3.connect(filter1);
   if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
     cursor(CROSS);
   } else {
     cursor(ARROW);
   }
   // e4.disconnect();
-  // e4.connect(filter);
+  // e4.connect(filter1);
   // e5.disconnect();
-  // e5.connect(filter);
+  // e5.connect(filter1);
 }
 
 function filterOff(){
