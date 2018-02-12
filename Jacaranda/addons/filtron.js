@@ -14,8 +14,8 @@ var Filt = function(ftx, fty) {
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
-    var scmse = map(mouseX, this.x, this.x+this.width, 600, 940);
-    var freq = map(scmse, this.x, this.x+this.width, 0, 10000); // was 500, 700, 20, 10000
+    //var scmse = map(mouseX, this.x, this.x+this.width, 600, 940); // what is this?
+    var freq = map(mouseX, this.x, this.x+this.width, 20, 10000); // was 500, 700, 20, 10000
     //constrain(freq, 10, 10000);
     filter1.freq(freq);
     // give the filter a narrow band (lower res = wider bandpass)

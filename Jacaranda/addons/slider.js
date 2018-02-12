@@ -44,7 +44,8 @@ var Slider = function(fx, fy, t1, t2, t3) {
 };
 
   this.envLoc = function(ampVal){
-    this.ty = map(ampVal, 160, 50, this.y+this.sliderHeight-(this.tbSpace*1.5), this.y);
+    this.ty = map(ampVal, 0.0, 1.0, this.y+this.sliderHeight-(this.tbSpace*1.5), this.y);
+    //console.log(this.ty);
   }
 
  // if envelop automator is not on use mouse Y to update slider position

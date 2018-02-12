@@ -1,25 +1,18 @@
 //Objects
-var ps;
 var slider1;
 var slider2;
 var slider3;
-var filterObj;
 // interface sliders, toggles
 var envTog;
 var envBoo = false;
-var filterTog;
-var filterBoo = false;
 var level1 = 0;
 var level2 = 0;
 var level3 = 0;
 // slider positions
 var f1x,f1y,f2x,f2y,f3x,f3y;
-// filter position
-var flt1x, flt1y;
 // sound vars
-var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
+var birdsound, cracklesound, thundersound, e1, e2, e3, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
-var filter1, fft;
 // Envelop Data
 // Envelop 1
 var attackTime1 = 0.9;
@@ -55,39 +48,18 @@ function preload (){
   e1 = loadSound('media/e1.ogg');
   e2 = loadSound('media/e2.ogg');
   e3 = loadSound('media/e3.ogg');
-  e4 = loadSound('media/e4.ogg');
-  e5 = loadSound('media/e5.ogg');
+  e4 = loadSound('media/e3.ogg');
+  e5 = loadSound('media/e3.ogg');
   silentsound = loadSound('media/silence.ogg');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  setFrameRate(60);
+  setFrameRate(60); // frameRate was 60?
   // create checkboxes
   envTog = createCheckbox('Automate', false);
   envTog.changed(checkValEnv);
   envTog.position(width-280,30);
-  filterTog = createCheckbox('Filter via Spectrum', false);
-  filterTog.changed(checkValFilter);
-  filterTog.position(width-340,height-240);
-  // sliders in relation to screen width
-  f1x = width-360;
-  f1y = 90;
-  f2x = width-280;
-  f2y = 90;
-  f3x = width-200;
-  f3y = 90;
-  slider1 = new Slider(f1x,f1y,"Thunder", "Blossom", "Wieght");
-  slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
-  slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
-  //filter Object
-  filter1 = new p5.BandPass();
-  fft = new p5.FFT();
-  flt1x = width-340;
-  flt1y = height-220;
-  filterObj = new Filt(flt1x, flt1y);
-  // particle system
-  ps = new ParticleSystem(createVector(random(50, width/3), 100));
   //sound
   birdsound.setVolume(0);
   birdsound.loop();
@@ -100,13 +72,24 @@ function setup() {
   e3.setVolume(0.1);
   e4.setVolume(0.1);
   e5.setVolume(0.1);
-  // Envelopes
+  // sliders in relation to screen width
+  f1x = width-360;
+  f1y = 90;
+  f2x = width-280;
+  f2y = 90;
+  f3x = width-200;
+  f3y = 90;
+  slider1 = new Slider(f1x,f1y,"Thunder", "Blossom", "Wieght");
+  slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
+  slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
+
+  // Envelope
   env1 = new p5.Env();
   env2 = new p5.Env();
   env3 = new p5.Env();
   env4 = new p5.Env();
   env5 = new p5.Env();
-  // Oscillators
+  // Oscillator
   osc1 = new p5.Oscillator();//oscillators provide stable output for the automated faders. They're not heard.
   osc1.amp(env1);
   osc1.start(); // check procrssing
@@ -145,128 +128,52 @@ function setup() {
 }
 
 function draw() {
-  var redRange = map(level2, 1.0, 0.0, 200, 40);
+  var redRange = 200;
   background(123, redRange/2, redRange);
   noStroke();
   // background grade
-  fill(115, redRange/2, 230, 15);
+  fill(115, 100, 230, 15);
   var rectSize = width/20;
   for(var i = 0; i < 28; i++){
     rectSize = rectSize + 20;
     rect(0,0, rectSize, height);
   }
-  // PARTICLES
-  var gravity = createVector(0, level1/5);
-  ps.applyForce(gravity);
-  var wind = map(level3, 0.0, 1.0, 0.5, 1.5);
-  var collision = map(level1, 0.0, 1.0, 3, 5);
-  ps.addParticle();
-  ps.run(wind);
-  // SOUND
-  // draw sliders and update levels
-  // Link Amplitude to slider
 
+  // SOUND
   slider1.display();
   slider2.display();
   slider3.display();
-  console.log(envBoo);
-  //envelop switched on
+  console.log(envBoo); // automate on or off
   if(envBoo){
-    // console.log("amp level");
-    // console.log(amp1.getLevel());
-    // console.log(amp2.getLevel());
-    // console.log(amp3.getLevel());
+    console.log("amp level");
+    console.log(amp1.getLevel());
+    console.log(amp2.getLevel());
+    console.log(amp3.getLevel());
     var autoLevel1 = amp1.getLevel();
     var autoLevel2 = amp2.getLevel();
     var autoLevel3 = amp3.getLevel();
     var triLevel1 = map(autoLevel1, 0.00, 0.5, 0.0, 0.9); // birds
     var triLevel2 = map(autoLevel2, 0.00, 0.5, 0.0, 0.9); // crackle
     var triLevel3 = map(autoLevel3, 0.00, 0.5, 0.0, 0.9); // thunder
+    console.log("tri level");
     slider1.envLoc(triLevel3);
     slider2.envLoc(triLevel1);
     slider3.envLoc(triLevel2);
-    // read level based on triLevel - for color and other dynamics
-    level1 = map(triLevel1,0.0,0.5,1.0,0.0); // based on slider height
-    level2 = map(triLevel2,0.0,0.5,1.0,0.0); // based on slider height
-    level3 = map(triLevel3,0.0,0.5,0.5,0.0); // based on slider height
-  }  else //envelop switched on
-  {
-    // stop silentsound
+  }  else {
     silentsound.stop();
-    // randomly play short sounds
-    r = int(random(collision));// ussing level 1 to change
-    if (r == 1) {
-      e1.play();
-    }
-    if (r == 2) {
-      e2.play();
-    }
-    if (r == 3) {
-      e3.play();
-    }
-    slider1.updateLoc();
-    slider2.updateLoc();
-    slider3.updateLoc();
-    // read level based on slider position
     level1 = map(slider1.ty, f1y, f1y+slider1.sliderHeight-(slider1.tbSpace*1.5),1.0,0.0); // based on slider height
     level2 = map(slider2.ty, f2y, f2y+slider2.sliderHeight-(slider2.tbSpace*1.5),1.0,0.0); // based on slider height
     level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),0.5,0.0); // based on slider height
-    // sound files volume to slider level
+    slider1.updateLoc();
+    slider2.updateLoc();
+    slider3.updateLoc();
     birdsound.setVolume(level2);
     cracklesound.setVolume(level3);
     thundersound.setVolume(level1);
 }
-  //draw and access filter
-  filterObj.display();
-  if(filterBoo){
-    filterOn();
-  } else{
-    filterOff();
-  }
-}
 
-function filterOn(){
-  birdsound.disconnect();
-  birdsound.connect(filter1);
-  cracklesound.disconnect();
-  cracklesound.connect(filter1);
-  thundersound.disconnect();
-  thundersound.connect(filter1);
-  e1.disconnect();
-  e1.connect(filter1);
-  e2.disconnect();
-  e2.connect(filter1);
-  e3.disconnect();
-  e3.connect(filter1);
-  if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
-    cursor(CROSS);
-  } else {
-    cursor(ARROW);
-  }
-  e4.disconnect();
-  e4.connect(filter1);
-  e5.disconnect();
-  e5.connect(filter1);
-}
 
-function filterOff(){
-  birdsound.disconnect();
-  birdsound.connect();
-  cracklesound.disconnect();
-  cracklesound.connect();
-  thundersound.disconnect();
-  thundersound.connect();
-  e1.disconnect();
-  e1.connect();
-  e2.disconnect();
-  e2.connect();
-  e3.disconnect();
-  e3.connect();
-  cursor(ARROW);
-  e4.disconnect();
-  e4.connect();
-  e5.disconnect();
-  e5.connect();
+  // sound files volume to slider
 }
 
 // Envelop Functions
@@ -279,29 +186,28 @@ function nextEnv1(){
   env4.play(e3, 0, 20);
   env4.play(e4, 0, 20);
   env4.play(e5, 0, 20);
-}
+};
 
 function nextEnv2(){
   env1.setADSR(5, 0.2, 0.8, 4);
   env1.setRange(0.8, 0);
   env1.play(osc1, 0, 66);
   env1.play(birdsound, 0, 66);
-}
+};
 
 function nextEnv3(){
   env2.setADSR(20, 0.2, 0.6, 5);
   env2.setRange(0.6, 0);
   env2.play(osc2, 0, 15);
   env2.play(cracklesound, 0, 15);
-
-}
+};
 
 function nextEnv4(){
   env3.setADSR(15, 0.2, 0.8, 5);
   env3.setRange(0.8, 0);
   env3.play(osc3, 0, 16);
   env3.play(thundersound, 0, 16);
-}
+};
 
 function nextEnv5(){
   env5.setADSR(10, 0.2, 0.6, 3);
@@ -312,16 +218,7 @@ function nextEnv5(){
   env5.play(e3, 0, 8);
   env5.play(e4, 0, 8);
   env5.play(e5, 0, 8);
-}
-
-function checkValEnv(){
-  if(envTog.changed && envBoo == false){
-    envBoo = true;
-  }else{
-    envBoo = false;
-  }
-  //console.log("env: "+envBoo);
-}
+};
 
 function checkValEnv(){
   if(envTog.changed && envBoo == false){
@@ -330,5 +227,10 @@ function checkValEnv(){
   }else if (envTog.changed && envBoo == true){
     envBoo = false;
     silentsound.stop();
+    // env1.stop();
+    // env2.stop();
+    // env3.stop();
+    // env4.stop();
+    // env5.stop();
   }
 };
