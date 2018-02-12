@@ -6,6 +6,7 @@ var Filt = function(ftx, fty) {
   this.height = 150;
 
   this.display = function(){
+    // draw base
     strokeWeight(1);
     textSize(12);
     stroke(82, 20, 82);
@@ -14,20 +15,15 @@ var Filt = function(ftx, fty) {
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
-    //var scmse = map(mouseX, this.x, this.x+this.width, 600, 940); // what is this?
-    var freq = map(mouseX, this.x, this.x+this.width, 20, 10000); // was 500, 700, 20, 10000
-    //constrain(freq, 10, 10000);
-    filter1.freq(freq);
-    // give the filter a narrow band (lower res = wider bandpass)
-    filter1.res(18);//was 50
+    // select frequency
 
     // draw filtered spectrum
-    fill(255, 40, 255);
     var spectrum = fft.analyze();
+    fill(255, 40, 255);
     for (var i = 0; i < spectrum.length; i++) {
-      var xi = map(i, 0, spectrum.length, this.x, this.x+this.width);
-      var hi = -this.height + map(spectrum[i], 0, 255, 150, 0);
-      rect(xi, this.y+this.height, this.width/spectrum.length, hi);
+      var x = map(i, 0, spectrum.length, this.x, this.x+this.width);
+      var h = -this.height + map(spectrum[i], 0, 255, this.height, 0);
+      rect(x, this.y+this.height, this.width/spectrum.length, h);
     }
   }
 }

@@ -62,7 +62,7 @@ function preload (){
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  setFrameRate(60);
+  setFrameRate(30);
   // create checkboxes
   envTog = createCheckbox('Automate', false);
   envTog.changed(checkValEnv);
@@ -162,33 +162,25 @@ function draw() {
   var collision = map(level1, 0.0, 1.0, 3, 5);
   ps.addParticle();
   ps.run(wind);
-  // SOUND
-  // draw sliders and update levels
-  // Link Amplitude to slider
 
+  // draw sliders
   slider1.display();
   slider2.display();
   slider3.display();
-  console.log(envBoo);
+
+  console.log(envBoo+"+ 100");
   //envelop switched on
   if(envBoo){
     // console.log("amp level");
     // console.log(amp1.getLevel());
     // console.log(amp2.getLevel());
     // console.log(amp3.getLevel());
-    var autoLevel1 = amp1.getLevel();
-    var autoLevel2 = amp2.getLevel();
-    var autoLevel3 = amp3.getLevel();
-    var triLevel1 = map(autoLevel1, 0.00, 0.5, 0.0, 0.9); // birds
-    var triLevel2 = map(autoLevel2, 0.00, 0.5, 0.0, 0.9); // crackle
-    var triLevel3 = map(autoLevel3, 0.00, 0.5, 0.0, 0.9); // thunder
+    var triLevel1 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // birds
+    var triLevel2 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // crackle
+    var triLevel3 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // thunder
     slider1.envLoc(triLevel3);
     slider2.envLoc(triLevel1);
     slider3.envLoc(triLevel2);
-    // read level based on triLevel - for color and other dynamics
-    level1 = map(triLevel1,0.0,0.5,1.0,0.0); // based on slider height
-    level2 = map(triLevel2,0.0,0.5,1.0,0.0); // based on slider height
-    level3 = map(triLevel3,0.0,0.5,0.5,0.0); // based on slider height
   }  else //envelop switched on
   {
     // stop silentsound
@@ -207,15 +199,15 @@ function draw() {
     slider1.updateLoc();
     slider2.updateLoc();
     slider3.updateLoc();
-    // read level based on slider position
-    level1 = map(slider1.ty, f1y, f1y+slider1.sliderHeight-(slider1.tbSpace*1.5),1.0,0.0); // based on slider height
-    level2 = map(slider2.ty, f2y, f2y+slider2.sliderHeight-(slider2.tbSpace*1.5),1.0,0.0); // based on slider height
-    level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),0.5,0.0); // based on slider height
     // sound files volume to slider level
     birdsound.setVolume(level2);
     cracklesound.setVolume(level3);
     thundersound.setVolume(level1);
-}
+  }
+  // read level based on slider position
+  level1 = map(slider1.ty, f1y, f1y+slider1.sliderHeight-(slider1.tbSpace*1.5),1.0,0.0); // based on slider height
+  level2 = map(slider2.ty, f2y, f2y+slider2.sliderHeight-(slider2.tbSpace*1.5),1.0,0.0); // based on slider height
+  level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),0.5,0.0); // based on slider height
   //draw and access filter
   filterObj.display();
   if(filterBoo){
@@ -238,15 +230,23 @@ function filterOn(){
   e2.connect(filter1);
   e3.disconnect();
   e3.connect(filter1);
-  if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
-    cursor(CROSS);
-  } else {
-    cursor(ARROW);
-  }
   e4.disconnect();
   e4.connect(filter1);
   e5.disconnect();
   e5.connect(filter1);
+  if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
+    cursor(CROSS);
+    if(mouseIsPressed){
+      var freq = map(mouseX, filterObj.x-filterObj.width, filterObj.x, 20, 10000); // what is this?
+      //constrain(freq, 10, 10000);
+      filter1.freq(freq);
+      // give the filter a narrow band (lower res = wider bandpass)
+      filter1.res(50);//was 50
+    }
+  } else {
+    cursor(ARROW);
+  }
+
 }
 
 function filterOff(){
@@ -314,13 +314,12 @@ function nextEnv5(){
   env5.play(e5, 0, 8);
 }
 
-function checkValEnv(){
-  if(envTog.changed && envBoo == false){
-    envBoo = true;
+function checkValFilter(){
+  if(filterTog.changed && filterBoo == false){
+    filterBoo = true;
   }else{
-    envBoo = false;
+    filterBoo = false;
   }
-  //console.log("env: "+envBoo);
 }
 
 function checkValEnv(){
