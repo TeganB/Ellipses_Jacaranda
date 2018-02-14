@@ -1,5 +1,7 @@
 //Objects
 var ps;
+var script;
+var reader;
 var slider1;
 var slider2;
 var slider3;
@@ -12,6 +14,12 @@ var filterBoo = false;
 var level1 = 0;
 var level2 = 0;
 var level3 = 0;
+var numLines;
+// reader variables
+var shift;
+var tick;
+var sec = 3;
+var rate = 3;
 // slider positions
 var f1x,f1y,f2x,f2y,f3x,f3y;
 // filter position
@@ -58,36 +66,41 @@ function preload (){
   e4 = loadSound('media/e4.ogg');
   e5 = loadSound('media/e5.ogg');
   silentsound = loadSound('media/silence.ogg');
+  script = loadTable('media/JacarandaScript.csv', 'csv');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setFrameRate(30);
+  // particle system
+  ps = new ParticleSystem(createVector(random(50, width/3), 100));
+  // text Jacaranda
+  tick = second()+3;
+  numLines = script.getRowCount();
+  reader = new textReader(numLines);
   // create checkboxes
-  envTog = createCheckbox('Automate', false);
+  envTog = createCheckbox('Automate sound files and effects', false);
   envTog.changed(checkValEnv);
-  envTog.position(width-280,30);
+  envTog.position(width-260,20);
   filterTog = createCheckbox('Filter via Spectrum', false);
   filterTog.changed(checkValFilter);
-  filterTog.position(width-340,height-240);
+  filterTog.position(width-250,height-240);
   // sliders in relation to screen width
-  f1x = width-360;
-  f1y = 90;
-  f2x = width-280;
-  f2y = 90;
-  f3x = width-200;
-  f3y = 90;
+  f1x = width-260;
+  f1y = 80;
+  f2x = width-180;
+  f2y = 80;
+  f3x = width-100;
+  f3y = 80;
   slider1 = new Slider(f1x,f1y,"Thunder", "Blossom", "Wieght");
   slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
   slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
   //filter Object
   filter1 = new p5.BandPass();
   fft = new p5.FFT();
-  flt1x = width-340;
-  flt1y = height-220;
+  flt1x = width-250;
+  flt1y = height-200;
   filterObj = new Filt(flt1x, flt1y);
-  // particle system
-  ps = new ParticleSystem(createVector(random(50, width/3), 100));
   //sound
   birdsound.setVolume(0);
   birdsound.loop();
@@ -162,22 +175,32 @@ function draw() {
   var collision = map(level1, 0.0, 1.0, 3, 5);
   ps.addParticle();
   ps.run(wind);
-
   // draw sliders
   slider1.display();
   slider2.display();
   slider3.display();
+  //Script
+  reader.display();
+  if (second() == tick && sec != tick && tick < 59) {
+    shift = true;
+    reader.updateText(shift);
+    sec = tick;
+    shift = false;
+    tick += rate;
+  } else if(tick > 58){
+    tick = 1;
+  }
 
-  console.log(envBoo+"+ 100");
+   console.log(second());
+   console.log(tick);
   //envelop switched on
   if(envBoo){
-    // console.log("amp level");
-    // console.log(amp1.getLevel());
-    // console.log(amp2.getLevel());
-    // console.log(amp3.getLevel());
-    var triLevel1 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // birds
-    var triLevel2 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // crackle
-    var triLevel3 = map(amp1.getLevel(), 0.00, 0.5, 0.0, 0.9); // thunder
+    var autoLevel1 = amp1.getLevel();
+    var autoLevel2 = amp2.getLevel();
+    var autoLevel3 = amp3.getLevel();
+    var triLevel1 = map(autoLevel1, 0.00, 0.5, 0.0, 0.9); // birds
+    var triLevel2 = map(autoLevel2, 0.00, 0.5, 0.0, 0.9); // crackle
+    var triLevel3 = map(autoLevel3, 0.00, 0.5, 0.0, 0.9); // thunder
     slider1.envLoc(triLevel3);
     slider2.envLoc(triLevel1);
     slider3.envLoc(triLevel2);
@@ -331,3 +354,15 @@ function checkValEnv(){
     silentsound.stop();
   }
 };
+
+function keyReleased() {
+  if (keyCode == UP_ARROW) {
+    rate = rate-1;
+  }
+   if (keyCode == DOWN_ARROW) {
+    rate = rate+1;
+  }
+  rate = constrain(rate, 1, 10);
+  //console.log(shift);
+  //reader.updateText(shift);
+}
