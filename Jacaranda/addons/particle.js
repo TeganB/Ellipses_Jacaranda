@@ -36,11 +36,16 @@ var Particle = function(position) {
   // Method to display
   this.display = function() {
     //stroke(200);
-    //strokeWeight(4);
-    fill(41, 0, 102, 200);
-    ellipse(this.position.x*this.wind, this.position.y*(this.wind*2)+2, 5,7);
-    fill(173, 10, 220, 200);
-    ellipse(this.position.x*this.wind, this.position.y*(this.wind*2), 9,7);
+    strokeWeight(4);
+    //stroke(41, 0, 102);
+    //line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+10, this.position.y*(this.wind*2)+5);
+    stroke(115, 80, 230);
+    line(this.position.x*this.wind-2, this.position.y*(this.wind*2), this.position.x*this.wind+5, this.position.y*(this.wind*2));
+    strokeWeight(5);
+    stroke(197, 97, 225, 200);
+    line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)-2);
+    stroke(162, 35, 239, 200);
+    line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)+random(0,2));
   };
 
    // Is the particle still useful?

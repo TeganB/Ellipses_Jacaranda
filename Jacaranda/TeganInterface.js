@@ -28,6 +28,7 @@ var f1x,f1y,f2x,f2y,f3x,f3y;
 var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
 //var filter1, fft;
+var img;
 
 // Envelop 1
 var attackTime1 = 0.9;
@@ -67,6 +68,7 @@ function preload (){
   e5 = loadSound('media/e5.ogg');
   silentsound = loadSound('media/silence.ogg');
   script = loadTable('media/JacarandaScript.csv', 'csv');
+  //img = loadImage('media/blossom.svg');
 }
 
 function setup() {
@@ -179,6 +181,7 @@ function draw() {
   slider1.display();
   slider2.display();
   slider3.display();
+  //image(img, width-500, 0 );
   //Script
   reader.display();
   if (second() == tick && sec != tick && tick < 59) {
