@@ -13,14 +13,14 @@ var textReader = function(num) {
     textSize(width/(myLength/2));
     textAlign("left");
     text(this.texts, this.x, this.y);
-    textSize(10);
+    textSize(14);
     fill(209, 179, 255, 200);
-    text("reading speed: "+rate, this.x, this.y+20);
+    text("reading speed: "+rate, this.x, this.y+30);
     fill(209, 179, 255, 150);
     if(this.line == this.length-1){
-      text("the end, reload page to restart", this.x+82, this.y+20);
+      text("the end, reload page to restart", this.x+140, this.y+30);
     } else {
-      text("use UP and DOWN arrows keys", this.x+82, this.y+20);
+      text("use UP and DOWN arrows keys", this.x+140, this.y+30);
     }
   }
 

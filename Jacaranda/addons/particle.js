@@ -9,9 +9,9 @@
 var Particle = function(position) {
   this.acceleration = createVector(0, 0.1);
   this.velocity = createVector(random(-1, 3), random(-5, 0));
-  this.position = createVector(random(10, width/2), 0);
-  this.lifespan = 500.0;
-  this.mass = 1.5; // Let's do something better here!
+  this.position = createVector(random(10, width), 0);
+  this.lifespan = 800.0;
+  this.mass = 2; // Let's do something better here!
 
   this.run = function(w) {
     this.wind = w;

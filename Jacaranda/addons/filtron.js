@@ -11,7 +11,7 @@ var Filt = function(ftx, fty) {
     textSize(12);
     stroke(82, 20, 82);
     fill(209, 179, 255);
-    text("Sound Spectrum", this.x+this.width/2, this.y+this.height+16);
+    text("Sound Spectrum", this.x, this.y+this.height+16);
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);

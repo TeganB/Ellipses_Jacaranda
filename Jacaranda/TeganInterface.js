@@ -9,26 +9,26 @@ var filterObj;
 // interface sliders, toggles
 var envTog;
 var envBoo = false;
-var filterTog;
-var filterBoo = false;
-var level1 = 0;
+// var filterTog;
+// var filterBoo = false;
+var level1 = 0.6;
 var level2 = 0;
 var level3 = 0;
 var numLines;
-// reader variables
+// Reader variables
 var shift;
 var tick;
 var sec = 3;
 var rate = 3;
-// slider positions
+// Slider positions
 var f1x,f1y,f2x,f2y,f3x,f3y;
-// filter position
-var flt1x, flt1y;
+  // filter position
+//var flt1x, flt1y;
 // sound vars
 var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
-var filter1, fft;
-// Envelop Data
+//var filter1, fft;
+
 // Envelop 1
 var attackTime1 = 0.9;
 var decayTime1 = 5;
@@ -72,30 +72,30 @@ function preload (){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setFrameRate(30);
-  // particle system
+  // Particle System
   ps = new ParticleSystem(createVector(random(50, width/3), 100));
-  // text Jacaranda
+  // Text Reader
   tick = second()+3;
   numLines = script.getRowCount();
   reader = new textReader(numLines);
-  // create checkboxes
+  // Create Checkboxes
   envTog = createCheckbox('Automate sound files and effects', false);
   envTog.changed(checkValEnv);
-  envTog.position(width-260,20);
-  filterTog = createCheckbox('Filter via Spectrum', false);
-  filterTog.changed(checkValFilter);
-  filterTog.position(width-250,height-240);
-  // sliders in relation to screen width
+  envTog.position(width-260,30);
+    // filterTog = createCheckbox('Filter via Spectrum', false);
+    // filterTog.changed(checkValFilter);
+    // filterTog.position(width-250,height-240);
+    // Sliders in relation to screen width
   f1x = width-260;
-  f1y = 80;
+  f1y = 100;
   f2x = width-180;
-  f2y = 80;
+  f2y = 100;
   f3x = width-100;
-  f3y = 80;
-  slider1 = new Slider(f1x,f1y,"Thunder", "Blossom", "Wieght");
-  slider2 = new Slider(f2x,f2y,"Birds", "Afternoon", "to Twilight");
-  slider3 = new Slider(f3x,f3y,"Cooking", "Spreading", "Breeze" );
-  //filter Object
+  f3y = 100;
+  slider1 = new Slider(f1x,f1y,"Thunder", "Sound", "Blossom", "Wieght");
+  slider2 = new Slider(f2x,f2y,"Birds", "Sound", "Afternoon", "to Twilight");
+  slider3 = new Slider(f3x,f3y,"Crackle", "Sound", "Spreading", "Breeze" );
+  // Spectrum Filter Object
   filter1 = new p5.BandPass();
   fft = new p5.FFT();
   flt1x = width-250;
@@ -169,9 +169,9 @@ function draw() {
     rect(0,0, rectSize, height);
   }
   // PARTICLES
-  var gravity = createVector(0, level1/5);
+  var gravity = createVector(0, level1/3);
   ps.applyForce(gravity);
-  var wind = map(level3, 0.0, 1.0, 0.5, 1.5);
+  var wind = map(level3, 0.0, 1.0, 0.5, 2.0);
   var collision = map(level1, 0.0, 1.0, 3, 5);
   ps.addParticle();
   ps.run(wind);
@@ -190,9 +190,9 @@ function draw() {
   } else if(tick > 58){
     tick = 1;
   }
+   //console.log(second());
+   //console.log(tick);
 
-   console.log(second());
-   console.log(tick);
   //envelop switched on
   if(envBoo){
     var autoLevel1 = amp1.getLevel();
@@ -228,68 +228,16 @@ function draw() {
     thundersound.setVolume(level1);
   }
   // read level based on slider position
-  level1 = map(slider1.ty, f1y, f1y+slider1.sliderHeight-(slider1.tbSpace*1.5),1.0,0.0); // based on slider height
+  level1 = map(slider1.ty, f1y, f1y+slider1.sliderHeight-(slider1.tbSpace*1.5),1.0,0.3); // based on slider height
   level2 = map(slider2.ty, f2y, f2y+slider2.sliderHeight-(slider2.tbSpace*1.5),1.0,0.0); // based on slider height
   level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),0.5,0.0); // based on slider height
-  //draw and access filter
+  //Draw and access filter
   filterObj.display();
-  if(filterBoo){
-    filterOn();
-  } else{
-    filterOff();
-  }
-}
-
-function filterOn(){
-  birdsound.disconnect();
-  birdsound.connect(filter1);
-  cracklesound.disconnect();
-  cracklesound.connect(filter1);
-  thundersound.disconnect();
-  thundersound.connect(filter1);
-  e1.disconnect();
-  e1.connect(filter1);
-  e2.disconnect();
-  e2.connect(filter1);
-  e3.disconnect();
-  e3.connect(filter1);
-  e4.disconnect();
-  e4.connect(filter1);
-  e5.disconnect();
-  e5.connect(filter1);
-  if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
-    cursor(CROSS);
-    if(mouseIsPressed){
-      var freq = map(mouseX, filterObj.x-filterObj.width, filterObj.x, 20, 10000); // what is this?
-      //constrain(freq, 10, 10000);
-      filter1.freq(freq);
-      // give the filter a narrow band (lower res = wider bandpass)
-      filter1.res(50);//was 50
-    }
-  } else {
-    cursor(ARROW);
-  }
-
-}
-
-function filterOff(){
-  birdsound.disconnect();
-  birdsound.connect();
-  cracklesound.disconnect();
-  cracklesound.connect();
-  thundersound.disconnect();
-  thundersound.connect();
-  e1.disconnect();
-  e1.connect();
-  e2.disconnect();
-  e2.connect();
-  e3.disconnect();
-  e3.connect();
-  cursor(ARROW);
-  e4.disconnect();
-  e4.connect();
-  e5.disconnect();
-  e5.connect();
+    // if(filterBoo){
+    //   filterOn();
+    // } else{
+    //   filterOff();
+    // }
 }
 
 // Envelop Functions
@@ -337,14 +285,6 @@ function nextEnv5(){
   env5.play(e5, 0, 8);
 }
 
-function checkValFilter(){
-  if(filterTog.changed && filterBoo == false){
-    filterBoo = true;
-  }else{
-    filterBoo = false;
-  }
-}
-
 function checkValEnv(){
   if(envTog.changed && envBoo == false){
     envBoo = true;
@@ -366,3 +306,64 @@ function keyReleased() {
   //console.log(shift);
   //reader.updateText(shift);
 }
+
+
+// function checkValFilter(){
+//   if(filterTog.changed && filterBoo == false){
+//     filterBoo = true;
+//   }else{
+//     filterBoo = false;
+//   }
+// }
+
+// function filterOn(){
+//   birdsound.disconnect();
+//   birdsound.connect(filter1);
+//   cracklesound.disconnect();
+//   cracklesound.connect(filter1);
+//   thundersound.disconnect();
+//   thundersound.connect(filter1);
+//   e1.disconnect();
+//   e1.connect(filter1);
+//   e2.disconnect();
+//   e2.connect(filter1);
+//   e3.disconnect();
+//   e3.connect(filter1);
+//   e4.disconnect();
+//   e4.connect(filter1);
+//   e5.disconnect();
+//   e5.connect(filter1);
+//   if(mouseX > filterObj.x && mouseX < filterObj.x+filterObj.width && mouseY > filterObj.y && mouseY < filterObj.y+this.height){
+//     cursor(CROSS);
+//     if(mouseIsPressed){
+//       var freq = map(mouseX, filterObj.x-filterObj.width, filterObj.x, 20, 10000); // what is this?
+//       //constrain(freq, 10, 10000);
+//       filter1.freq(freq);
+//       // give the filter a narrow band (lower res = wider bandpass)
+//       filter1.res(50);//was 50
+//     }
+//   } else {
+//     cursor(ARROW);
+//   }
+//
+// }
+//
+// function filterOff(){
+//   birdsound.disconnect();
+//   birdsound.connect();
+//   cracklesound.disconnect();
+//   cracklesound.connect();
+//   thundersound.disconnect();
+//   thundersound.connect();
+//   e1.disconnect();
+//   e1.connect();
+//   e2.disconnect();
+//   e2.connect();
+//   e3.disconnect();
+//   e3.connect();
+//   cursor(ARROW);
+//   e4.disconnect();
+//   e4.connect();
+//   e5.disconnect();
+//   e5.connect();
+// }

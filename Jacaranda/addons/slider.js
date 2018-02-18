@@ -2,11 +2,11 @@
 // Simple vertical slider
 
 
-var Slider = function(fx, fy, t1, t2, t3) {
+var Slider = function(fx, fy, t1, t2, t3, t4) {
   this.sliderWidth = 60;
   this.sliderHeight = 200;
   this.textS = 13;
-  this.tbSpace = 30;
+  this.tbSpace = 40;
   this.triY = fy+this.sliderHeight-(this.tbSpace+20);
   this.inter = false;
   this.x = fx;
@@ -34,9 +34,10 @@ var Slider = function(fx, fy, t1, t2, t3) {
   textSize(this.textS);
   stroke(82, 20, 82);
   fill(209, 179, 255);
-  text(t1, this.x+this.sliderWidth/2, this.y-this.textS*0.7);
-  text(t2, this.x+this.sliderWidth/2, this.y+this.sliderHeight-16);
-  text(t3, this.x+this.sliderWidth/2, this.y+this.sliderHeight);
+  text(t1, this.x+this.sliderWidth/2, this.y-this.textS-12  );
+  text(t2, this.x+this.sliderWidth/2, this.y-this.textS*0.8);
+  text(t3, this.x+this.sliderWidth/2, this.y+this.sliderHeight-16);
+  text(t4, this.x+this.sliderWidth/2, this.y+this.sliderHeight);
   // triangle marker
   noStroke();
   fill(this.tfillCol);
