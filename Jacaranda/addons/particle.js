@@ -41,11 +41,12 @@ var Particle = function(position) {
     //line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+10, this.position.y*(this.wind*2)+5);
     stroke(115, 80, 230);
     line(this.position.x*this.wind-2, this.position.y*(this.wind*2), this.position.x*this.wind+5, this.position.y*(this.wind*2));
-    strokeWeight(5);
-    stroke(197, 97, 225, 200);
-    line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)-2);
+    strokeWeight(3);
+    //stroke(197, 97, 225, 200);
     stroke(162, 35, 239, 200);
-    line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)+random(0,2));
+    line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)+6);
+
+    //line(this.position.x*this.wind, this.position.y*(this.wind*2), this.position.x*this.wind+8, this.position.y*(this.wind*2)+random(0,2));
   };
 
    // Is the particle still useful?

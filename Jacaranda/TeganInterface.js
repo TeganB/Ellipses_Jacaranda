@@ -24,7 +24,11 @@ var rate = 3;
 var f1x,f1y,f2x,f2y,f3x,f3y;
   // filter position
 //var flt1x, flt1y;
+// sound buttons
+var buttonCH;
 // sound vars
+var chTime = "0.00";
+var ch, mk, tb, sr;
 var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
 //var filter1, fft;
@@ -66,9 +70,10 @@ function preload (){
   e3 = loadSound('media/e3.ogg');
   e4 = loadSound('media/e4.ogg');
   e5 = loadSound('media/e5.ogg');
+  ch = loadSound('media/2_Cameron.mp3');
   silentsound = loadSound('media/silence.ogg');
   script = loadTable('media/JacarandaScript.csv', 'csv');
-  //img = loadImage('media/blossom.svg');
+  //img = loadImage('media/jacaranda.jpg');
 }
 
 function setup() {
@@ -88,6 +93,11 @@ function setup() {
     // filterTog.changed(checkValFilter);
     // filterTog.position(width-250,height-240);
     // Sliders in relation to screen width
+  // Create buttons
+  buttonCH = createButton("PLAY");
+  buttonCH.position(20, height-(150+32));
+  buttonCH.mousePressed(toggleCH);
+  // Create Sliders
   f1x = width-260;
   f1y = 100;
   f2x = width-180;
@@ -115,6 +125,7 @@ function setup() {
   e3.setVolume(0.1);
   e4.setVolume(0.1);
   e5.setVolume(0.1);
+
   // Envelopes
   env1 = new p5.Env();
   env2 = new p5.Env();
@@ -163,6 +174,8 @@ function draw() {
   var redRange = map(level2, 1.0, 0.0, 200, 40);
   background(123, redRange/2, redRange);
   noStroke();
+  //tint(255, 30);
+  //image(img, 0,0, width, height);
   // background grade
   fill(115, redRange/2, 230, 15);
   var rectSize = width/20;
@@ -170,6 +183,7 @@ function draw() {
     rectSize = rectSize + 20;
     rect(0,0, rectSize, height);
   }
+
   // PARTICLES
   var gravity = createVector(0, level1/3);
   ps.applyForce(gravity);
@@ -181,7 +195,7 @@ function draw() {
   slider1.display();
   slider2.display();
   slider3.display();
-  //image(img, width-500, 0 );
+
   //Script
   reader.display();
   if (second() == tick && sec != tick && tick < 59) {
@@ -193,8 +207,14 @@ function draw() {
   } else if(tick > 58){
     tick = 1;
   }
-   //console.log(second());
-   //console.log(tick);
+
+  // Playback Names
+  if (ch.isPlaying()){
+    chTime = nfc(ch.currentTime(),2);
+  }
+  displayPlay("Mwenya, Cameron", "Tegan, Tshego", "0:00",  100, height-210);
+  displayPlay("MWENYA KABWE", "Writer & Director",  "0:00", 500, height-210);
+  displayPlay("CAMERON HARRIS", "Composer & Sound Artist", chTime, 100, height-150);
 
   //envelop switched on
   if(envBoo){
@@ -241,6 +261,28 @@ function draw() {
     // } else{
     //   filterOff();
     // }
+}
+
+function toggleCH() {
+  if(! ch.isPlaying()){
+    ch.play();
+    ch.setVolume(1);
+    buttonCH.html("PAUSE ||");
+  } else {
+    ch.pause();
+    buttonCH.html("PLAY");
+  }
+
+}
+
+function displayPlay(Name, Title, playTime, playX, playY){
+  textSize(14);
+  fill(209, 179, 255);
+  text(Name, playX, playY-20);
+  text(Title, playX, playY);
+  textSize(44);
+  fill(77, 0, 102, 80);
+  text(playTime, playX+180, playY);
 }
 
 // Envelop Functions

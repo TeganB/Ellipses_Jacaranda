@@ -7,16 +7,18 @@ var textReader = function(num) {
   this.length = num;
 
   this.display = function(){
-    fill(233,233,4,100);
+    fill(233,233,4,130);
     var myLength = this.texts.length;
     textFont('Helvetica');
     textSize(width/(myLength/2));
     textAlign("left");
     text(this.texts, this.x, this.y);
     textSize(14);
-    fill(209, 179, 255, 200);
+    //fill(209, 179, 255, 200);
+    fill(77, 0, 102, 200);
     text("reading speed: "+rate, this.x, this.y+30);
-    fill(209, 179, 255, 150);
+    fill(77, 0, 102, 200);
+    //fill(209, 179, 255, 150);
     if(this.line == this.length-1){
       text("the end, reload page to restart", this.x+140, this.y+30);
     } else {
