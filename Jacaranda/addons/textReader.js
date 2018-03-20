@@ -1,7 +1,7 @@
 
 var textReader = function(num) {
   this.x = 20;
-  this.y = height/2+100;
+  this.y = height/2+95;
   this.line = 0;
   this.texts = script.getString(this.line, 0);
   this.length = num;
@@ -13,16 +13,16 @@ var textReader = function(num) {
     textSize(width/(myLength/2));
     textAlign("left");
     text(this.texts, this.x, this.y);
-    textSize(14);
+    textSize(15);
     //fill(209, 179, 255, 200);
     fill(77, 0, 102, 200);
-    text("reading speed: "+rate, this.x, this.y+30);
+    text("Orginal poetic script, line by line.   Reading speed: "+rate, this.x+5, this.y+30);
     fill(77, 0, 102, 200);
     //fill(209, 179, 255, 150);
     if(this.line == this.length-1){
-      text("the end, reload page to restart", this.x+140, this.y+30);
+      text("The end, reload page to restart", this.x+380, this.y+30);
     } else {
-      text("use UP and DOWN arrows keys", this.x+140, this.y+30);
+      text("Use UP and DOWN arrows keys to change speed", this.x+380, this.y+30);
     }
   }
 
@@ -34,7 +34,7 @@ var textReader = function(num) {
       this.text = "They where walking towards each other all of thier lives";
     }
     this.texts = script.getString(this.line, 0);
-    console.log(this.line);
+    //console.log(this.line);
   }
 
 }

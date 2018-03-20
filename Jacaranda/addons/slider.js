@@ -14,7 +14,6 @@ var Slider = function(fx, fy, t1, t2, t3, t4) {
   this.ty = this.x + this.tbSpace*1.5; // should set this via loading for defualt position with in new instance
   this.tfillCol = '#fff';
 
-
   this.display = function(){
   //base rect
   strokeWeight(1);
@@ -29,7 +28,6 @@ var Slider = function(fx, fy, t1, t2, t3, t4) {
   line(this.x+this.sliderWidth/2, this.y, this.x+this.sliderWidth/2, this.y+this.sliderHeight-(this.tbSpace*1.5));
   //label
   strokeWeight(1);
-  stroke(10);
   textAlign(CENTER);
   textSize(this.textS);
   stroke(82, 20, 82);

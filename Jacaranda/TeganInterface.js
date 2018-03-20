@@ -22,18 +22,23 @@ var sec = 3;
 var rate = 3;
 // Slider positions
 var f1x,f1y,f2x,f2y,f3x,f3y;
-  // filter position
-//var flt1x, flt1y;
-// sound buttons
-var buttonCH;
+// Sound Buttons
+var buttonGRP;
+var buttonM;
+var buttonT;
+var buttonC;
+var buttonS;
+var buttonST;
 // sound vars
-var chTime = "0.00";
-var ch, mk, tb, sr;
+var grpTime = "0.00";
+var mTime = "0.00";
+var tTime = "0.00";
+var cTime = "0.00";
+var sTime = "0.00";
+var stTime = "0.00";
+var grp, ch, mk, tk, sr, st;
 var birdsound, cracklesound, thundersound, e1, e2, e3, e4, e5, silentsound;
 var env1, env2, env3, env4, osc1, osc2, osc3, osc4, amp1, amp2, amp3, amp4, cnv;
-//var filter1, fft;
-var img;
-
 // Envelop 1
 var attackTime1 = 0.9;
 var decayTime1 = 5;
@@ -60,7 +65,10 @@ var decayTime5 = 0.9;
 var attackLevel5 = 1;
 var decayLevel5 = 0;
 
+var points = [];
+
 function preload (){
+  script = loadTable('media/JacarandaScript.csv', 'csv');
   soundFormats('mp3','ogg');
   birdsound = loadSound('media/birds.ogg');
   cracklesound = loadSound('media/crackle.ogg');
@@ -70,9 +78,13 @@ function preload (){
   e3 = loadSound('media/e3.ogg');
   e4 = loadSound('media/e4.ogg');
   e5 = loadSound('media/e5.ogg');
-  ch = loadSound('media/2_Cameron.mp3');
   silentsound = loadSound('media/silence.ogg');
-  script = loadTable('media/JacarandaScript.csv', 'csv');
+  grp = loadSound('media/1_Group.mp3');
+  mw = loadSound('media/4_Mwenya.mp3');
+  ch = loadSound('media/2_Cameron.mp3');
+  tk = loadSound('media/3_Tshego.mp3');
+  sr = loadSound('media/5_Sonia.mp3');
+  st = loadSound('media/6_Sonia_Tegan.mp3');
   //img = loadImage('media/jacaranda.jpg');
 }
 
@@ -89,14 +101,30 @@ function setup() {
   envTog = createCheckbox('Automate sound files and effects', false);
   envTog.changed(checkValEnv);
   envTog.position(width-260,30);
-    // filterTog = createCheckbox('Filter via Spectrum', false);
-    // filterTog.changed(checkValFilter);
-    // filterTog.position(width-250,height-240);
-    // Sliders in relation to screen width
-  // Create buttons
-  buttonCH = createButton("PLAY");
-  buttonCH.position(20, height-(150+32));
-  buttonCH.mousePressed(toggleCH);
+  // Create Sound Buttons
+  buttonM = createButton("PLAY");
+  buttonM.position(100-80, height-(190+32));
+  buttonM.mousePressed(toggleMW);
+//
+  buttonS = createButton("PLAY");
+  buttonS.position(490-80, height-(190+32));
+  buttonS.mousePressed(toggleSR);
+  //
+  buttonC = createButton("PLAY");
+  buttonC.position(880-80, height-(190+32));
+  buttonC.mousePressed(toggleCH);
+//
+  buttonT = createButton("PLAY");
+  buttonT.position(100-80, height-(120+32));
+  buttonT.mousePressed(toggleTK);
+//
+  buttonST = createButton("PLAY");
+  buttonST.position(490-80, height-(120+32));
+  buttonST.mousePressed(toggleST);
+//
+  buttonGRP = createButton("PLAY");
+  buttonGRP.position(100-80, height-(60+32));
+  buttonGRP.mousePressed(toggleGRP);
   // Create Sliders
   f1x = width-260;
   f1y = 100;
@@ -110,8 +138,8 @@ function setup() {
   // Spectrum Filter Object
   filter1 = new p5.BandPass();
   fft = new p5.FFT();
-  flt1x = width-250;
-  flt1y = height-200;
+  flt1x = width-530;
+  flt1y = 60;
   filterObj = new Filt(flt1x, flt1y);
   //sound
   birdsound.setVolume(0);
@@ -174,14 +202,31 @@ function draw() {
   var redRange = map(level2, 1.0, 0.0, 200, 40);
   background(123, redRange/2, redRange);
   noStroke();
-  //tint(255, 30);
-  //image(img, 0,0, width, height);
-  // background grade
   fill(115, redRange/2, 230, 15);
   var rectSize = width/20;
   for(var i = 0; i < 28; i++){
     rectSize = rectSize + 20;
     rect(0,0, rectSize, height);
+  }
+
+  var point = {
+    x: mouseX,
+    y: mouseY
+  };
+  points.push(point); // Update the last spot in the array with the mouse location.
+
+  if (points.length > 80) {
+    points.splice(0,1);
+  }
+
+  // Draw everything
+  for (var i = 0; i < points.length; i++) {
+     // Draw an ellipse for each element in the arrays.
+     // Color and size are tied to the loop's counter: i.
+    noStroke();
+    fill(0+(i*2), 40, 200, 40);
+    //fill(255-i*5);
+    ellipse(points[i].x,points[i].y,i*0.6,i*0.6);
   }
 
   // PARTICLES
@@ -191,13 +236,20 @@ function draw() {
   var collision = map(level1, 0.0, 1.0, 3, 5);
   ps.addParticle();
   ps.run(wind);
+  // mouseLine
+  // New location
+
   // draw sliders
   slider1.display();
   slider2.display();
   slider3.display();
 
+ //console.log(startText);
+
   //Script
   reader.display();
+  //if(overlay.startText == true){
+
   if (second() == tick && sec != tick && tick < 59) {
     shift = true;
     reader.updateText(shift);
@@ -207,14 +259,34 @@ function draw() {
   } else if(tick > 58){
     tick = 1;
   }
+//}
 
   // Playback Names
-  if (ch.isPlaying()){
-    chTime = nfc(ch.currentTime(),2);
+  if (grp.isPlaying()){
+    grpTime = nfc(grp.currentTime(),2);
   }
-  displayPlay("Mwenya, Cameron", "Tegan, Tshego", "0:00",  100, height-210);
-  displayPlay("MWENYA KABWE", "Writer & Director",  "0:00", 500, height-210);
-  displayPlay("CAMERON HARRIS", "Composer & Sound Artist", chTime, 100, height-150);
+  if (mw.isPlaying()){
+    mTime = nfc(mw.currentTime(),2);
+  }
+  if (tk.isPlaying()){
+    tTime = nfc(tk.currentTime(),2);
+  }
+  if (ch.isPlaying()){
+    cTime = nfc(ch.currentTime(),2);
+  }
+  if (sr.isPlaying()){
+    sTime = nfc(sr.currentTime(),2);
+  }
+  if (st.isPlaying()){
+    stTime = nfc(st.currentTime(),2);
+  }
+
+  displayPlay("MWENYA KABWE", "Writer, Director",  mTime, 100, height-190, 0);
+  displayPlay("SONIA RADEBE", "Dancer, Choreographer", sTime, 490, height-190, 15);
+  displayPlay("CAMERON HARRIS", "Sound Artist, Composer", cTime, 880, height-190, 15);
+  displayPlay("TSHEGO KHUTSOANE", "Performer, Poet", tTime, 100, height-120, 20);
+  displayPlay("SONIA RADEBE & TEGAN BRISTOW", "Dancer & Digital Artist", stTime, 490, height-120, 110);
+  displayPlay("MWENYA, CAMERON", "TEGAN & TSHEGO DISCUSS", grpTime, 100, height-60, 60);
 
   //envelop switched on
   if(envBoo){
@@ -256,33 +328,82 @@ function draw() {
   level3 = map(slider3.ty, f3y, f3y+slider3.sliderHeight-(slider3.tbSpace*1.5),0.5,0.0); // based on slider height
   //Draw and access filter
   filterObj.display();
-    // if(filterBoo){
-    //   filterOn();
-    // } else{
-    //   filterOff();
-    // }
+}
+
+function toggleGRP() {
+  if(! ch.isPlaying()){
+    grp.play();
+    grp.setVolume(1);
+    buttonGRP.html("PAUSE ||");
+  } else {
+    grp.pause();
+    buttonGRP.html("PLAY");
+  }
+}
+
+function toggleMW() {
+  if(! mw.isPlaying()){
+    mw.play();
+    mw.setVolume(1);
+    buttonM.html("PAUSE ||");
+  } else {
+    mw.pause();
+    buttonM.html("PLAY");
+  }
+}
+
+function toggleTK() {
+  if(! tk.isPlaying()){
+    tk.play();
+    tk.setVolume(1);
+    buttonT.html("PAUSE ||");
+  } else {
+    tk.pause();
+    buttonT.html("PLAY");
+  }
 }
 
 function toggleCH() {
   if(! ch.isPlaying()){
     ch.play();
     ch.setVolume(1);
-    buttonCH.html("PAUSE ||");
+    buttonC.html("PAUSE ||");
   } else {
     ch.pause();
-    buttonCH.html("PLAY");
+    buttonC.html("PLAY");
   }
-
 }
 
-function displayPlay(Name, Title, playTime, playX, playY){
+function toggleSR() {
+  if(! sr.isPlaying()){
+    sr.play();
+    sr.setVolume(1);
+    buttonS.html("PAUSE ||");
+  } else {
+    sr.pause();
+    buttonS.html("PLAY");
+  }
+}
+
+function toggleST() {
+  if(! st.isPlaying()){
+    st.play();
+    st.setVolume(1);
+    buttonST.html("PAUSE ||");
+  } else {
+    st.pause();
+    buttonST.html("PLAY");
+  }
+}
+
+function displayPlay(Name, Title, playTime, playX, playY, extraSpace){
   textSize(14);
   fill(209, 179, 255);
   text(Name, playX, playY-20);
   text(Title, playX, playY);
   textSize(44);
   fill(77, 0, 102, 80);
-  text(playTime, playX+180, playY);
+  text(playTime, playX+150+extraSpace, playY);
 }
 
 // Envelop Functions

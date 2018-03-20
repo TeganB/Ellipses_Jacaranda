@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Jacaranda Time: Diagrams </title>
+
   <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
   <meta charset="UTF-8">
   <style> body {padding: 0; margin: 0;} </style>
@@ -12,13 +14,31 @@
   <script language="javascript" type="text/javascript" src="addons/slider.js"></script>
   <script language="javascript" type="text/javascript" src="addons/filtron.js"></script>
   <script language="javascript" type="text/javascript" src="addons/textReader.js"></script>
-  <script language="javascript" type="text/javascript" src="TeganInterface.js"></script> 
-  <script language="javascript" type="text/javascript" src="overlay.js"></script>
+  <script language="javascript" type="text/javascript" src="TeganInterface.js"></script>
   <link rel="stylesheet" type="text/css" href="jacaranda.css">
+  <link href="https://fonts.googleapis.com/css?family=Karma:300,400,500,600,700" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Muli:200,700' rel='stylesheet'>
+  <!-- <script language="javascript" type="text/javascript" src="overlay.js"></script> -->
+  <script>
+  var startText = false;
+  document.addEventListener( "DOMContentLoaded" , on , false ) ;
+  function on() {
+      document.getElementById("overlay").style.display = "block";
+  }
+  function off() {
+      document.getElementById("overlay").style.display = "none";
+      startText = true;
+      console.log("true");
+  }
+  </script>
+
 </head>
 <body>
   <div id="overlay" onclick="off()">
-    <div id="text">Overlay Text</div>
+    <div id="text">Best on <em>Google Chrome Browser.</em><br/>Turn up your volume or use headphones.<br/><br/>You are invited to interact.<br/><br/> X </div>
+  </div>
+  <div>
+    <a href="http://www.ellipses.org.za/jacaranda-time-diagrams-of-collaboration/"><h1 class="karmaButton" style="cursor:pointer; color:white;">[...]</h1></a>
   </div>
 </body>
 </html>

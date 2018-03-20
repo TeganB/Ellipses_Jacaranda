@@ -3,15 +3,15 @@ var Filt = function(ftx, fty) {
   this.x = ftx;
   this.y = fty;
   this.width = 200;
-  this.height = 150;
+  this.height = 200;
 
   this.display = function(){
     // draw base
     strokeWeight(1);
-    textSize(12);
+    textSize(14);
     stroke(82, 20, 82);
     fill(209, 179, 255);
-    text("Sound Spectrum", this.x, this.y+this.height+16);
+    text("Sound Spectrum", this.x, this.y+this.height+20);
     noStroke();
     fill(0, 20);
     rect(this.x, this.y, this.width, this.height);
